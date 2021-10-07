@@ -7,6 +7,14 @@ const db = require("./db");
 const app = express();
 
 app.use(express.json());
+
+app.use(
+  cors({
+    credentials: true,
+    origin: "https://dark-todo.herokuapp.com/"
+  })
+);
+
 app.use(
   session({
     secret: "cvszcoki8rk8667o44r378",
