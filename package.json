@@ -1,12 +1,12 @@
 {
   "name": "anime_backend",
   "version": "1.0.0",
-  "description": "\"Backend for Anime Search\"",
+  "description": "Backend for Anime Search",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "\"Anmol Agrawal\"",
+  "author": "Anmol Agrawal",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
