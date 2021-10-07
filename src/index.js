@@ -11,15 +11,19 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: "https://search-animes.herokuapp.com/"
+    origin: "https://search-animes.herokuapp.com"
   })
 );
 
+app.set("trust proxy", 1);
+
 app.use(
   session({
-    secret: "cvszcoki8rk8667o44r378",
+    secret: "cvdsgoki8rk8667o44r378",
     cookie: {
-      maxAge: 1 * 60 * 60 * 1000 // 1 hour session
+      maxAge: 1 * 60 * 60 * 1000, // 1 hour session
+      sameSite: "none",
+      secure: true
     }
   })
 );
