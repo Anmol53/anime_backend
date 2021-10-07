@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: "https://dark-todo.herokuapp.com/"
+    origin: "https://pvm3w.csb.app/"
   })
 );
 
