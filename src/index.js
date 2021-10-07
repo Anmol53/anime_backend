@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: "https://search-animes.herokuapp.com/, https://csb-vy1ns-mq2cupych-anmol53.vercel.app/"
+    origin: "https://search-animes.herokuapp.com/"
   })
 );
 
