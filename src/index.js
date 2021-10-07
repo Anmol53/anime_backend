@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: "*"
+    origin: "https://csb-vy1ns-mq2cupych-anmol53.vercel.app/"
   })
 );
 
