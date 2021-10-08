@@ -150,7 +150,7 @@ app.post("/review", AuthMW, async (req, res) => {
     description: req.body.description,
     rating: req.body.rating,
     creationTime: new Date(),
-    anime_id: req.body.anime_id,
+    anime_id: Number(req.body.anime_id),
     user_id: req.session.user_id
   });
   try {
@@ -226,6 +226,7 @@ app.post("/review", AuthMW, async (req, res) => {
 
 // Sending all the reviews as an Array
 app.get("/anime/:animeId", AuthMW, async (req, res) => {
+  const animeId = Number(req.params.animeId);
   try {
     const reviews = await Review.find({ anime_id: animeId });
     console.log("Debug 1:", reviews);
@@ -242,7 +243,7 @@ app.get("/anime/:animeId", AuthMW, async (req, res) => {
       status: "ok",
       message: `${reviews.length} reviews fetched`,
       reviews,
-      overallRating: (count === 0 ? 0 : sum/count)
+      overallRating: count === 0 ? 0 : sum / count
     });
   } catch (e) {
     res.status(500).send({
