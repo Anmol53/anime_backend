@@ -230,13 +230,18 @@ app.get("/anime/:animeId", AuthMW, async (req, res) => {
     const reviews = await Review.find({ anime_id: animeId });
     let sum = 0;
     let count = 0;
-    reviews.forEach(async (review) => {
-      count++;
-      sum += review.rating;
-      console.log("Debugging 1");
-      console.log("Debugging 2: ", await User.findById(review.user_id).user_name);
-      console.log("Debugging 3");
-    });
+    await Promise.all(
+      reviews.forEach(async (review) => {
+        count++;
+        sum += review.rating;
+        console.log("Debugging 1");
+        console.log(
+          "Debugging 2: ",
+          await User.findById(review.user_id).user_name
+        );
+        console.log("Debugging 3");
+      })
+    );
     console.log("Debugging 4: ", reviews);
     res.status(200).send({
       status: "ok",
