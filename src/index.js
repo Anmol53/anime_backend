@@ -228,7 +228,13 @@ async function addUserNameToReviews(reviews) {
     reviews.map(async (review) => {
       const user = await User.findById(review.user_id);
       return {
-        ...review,
+        _id: review._id,
+        description: review.description,
+        rating: review.rating,
+        creationTime: review.creationTime,
+        anime_id: review.anime_id,
+        user_id: review.user_id,
+        __v: review.__v,
         user_name: user.user_name
       };
     })
