@@ -233,11 +233,11 @@ app.get("/anime/:animeId", AuthMW, async (req, res) => {
     reviews.forEach(async (review) => {
       count++;
       sum += review.rating;
-      console.log("Debugging 1: ", review);
-      review.user_name = await User.findById(review.user_id).user_name;
-      console.log("Debugging 2: ", review);
+      console.log("Debugging 1");
+      console.log("Debugging 2: ", await User.findById(review.user_id).user_name);
+      console.log("Debugging 3");
     });
-    console.log("Debugging 3: ", reviews);
+    console.log("Debugging 4: ", reviews);
     res.status(200).send({
       status: "ok",
       message: `${reviews.length} reviews fetched`,
