@@ -236,11 +236,12 @@ app.get("/anime/:animeId", AuthMW, async (req, res) => {
       const user = await User.findById(review.user_id);
       review.user_name = user.user_name;
     });
+    console.log(reviews, sum, count);
     res.status(200).send({
       status: "ok",
       message: `${reviews.length} reviews fetched`,
       reviews,
-      overallRating: sum/count
+      overallRating: (count === 0 ? 0 : sum/count)
     });
   } catch (e) {
     res.status(500).send({
