@@ -228,14 +228,19 @@ app.delete("/todo/:reviewId", AuthMW, async (req, res) => {
 app.get("/anime", AuthMW, async (req, res) => {
   try {
     const reviews = await Review.find({ anime_id: req.body.anime_id });
+    let sum = 0;
+    let count = 0;
     reviews.forEach(async (review) => {
-      const user = await User.findById(reviews.user_id);
+      count++;
+      sum += review.rating;
+      const user = await User.findById(review.user_id);
       review.user_name = user.user_name;
     });
     res.status(200).send({
       status: "ok",
       message: `${reviews.length} reviews fetched`,
-      reviews
+      reviews,
+      overallRating: sum/count;
     });
   } catch (e) {
     res.status(500).send({
