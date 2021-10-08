@@ -224,14 +224,15 @@ app.delete("/review/:reviewId", AuthMW, async (req, res) => {
 });
 
 async function addUserNameToReviews(reviews) {
-  return await Promise.all(
+  const updatedReviews = await Promise.all(
     reviews.map(async (review) => {
       return {
         ...review,
-        user_name: await User.findById(review.user_id).user_name
+        user: await User.findById(review.user_id)
       };
     })
   );
+  return updatedReviews;
 }
 
 // Sending all the reviews as an Array
