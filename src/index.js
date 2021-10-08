@@ -225,9 +225,9 @@ app.delete("/todo/:reviewId", AuthMW, async (req, res) => {
 });
 
 // Sending all the todos as an Array
-app.get("/anime", AuthMW, async (req, res) => {
+app.get("/anime/:animeId", AuthMW, async (req, res) => {
   try {
-    const reviews = await Review.find({ anime_id: req.body.anime_id });
+    const reviews = await Review.find({ anime_id: animeId });
     let sum = 0;
     let count = 0;
     reviews.forEach(async (review) => {
