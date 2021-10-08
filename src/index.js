@@ -223,26 +223,29 @@ app.delete("/review/:reviewId", AuthMW, async (req, res) => {
   }
 });
 
+async function addUserNameToReviews(reviews) {
+  return await Promise.all(
+    reviews.map(async (review) => {
+      return {
+        ...review,
+        user_name: await User.findById(review.user_id).user_name
+      };
+    })
+  );
+}
+
 // Sending all the reviews as an Array
 app.get("/anime/:animeId", AuthMW, async (req, res) => {
   const animeId = Number(req.params.animeId);
   try {
-    const reviews = await Review.find({ anime_id: animeId });
+    let reviews = await Review.find({ anime_id: animeId });
     let sum = 0;
     let count = 0;
-    await Promise.all(
-      reviews.forEach(async (review) => {
-        count++;
-        sum += review.rating;
-        console.log("Debugging 1");
-        console.log(
-          "Debugging 2: ",
-          await User.findById(review.user_id).user_name
-        );
-        console.log("Debugging 3");
-      })
-    );
-    console.log("Debugging 4: ", reviews);
+    reviews.forEach((review) => {
+      count++;
+      sum += review.rating;
+    });
+    reviews = await addUserNameToReviews(reviews);
     res.status(200).send({
       status: "ok",
       message: `${reviews.length} reviews fetched`,
