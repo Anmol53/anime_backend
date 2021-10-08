@@ -240,7 +240,7 @@ app.get("/anime", AuthMW, async (req, res) => {
       status: "ok",
       message: `${reviews.length} reviews fetched`,
       reviews,
-      overallRating: sum/count;
+      overallRating: sum/count
     });
   } catch (e) {
     res.status(500).send({
