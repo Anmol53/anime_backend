@@ -80,7 +80,6 @@ app.post("/signup", async (req, res) => {
       status: "Created",
       message: `User ${req.body.user_name} created!`
     });
-    a.send();
   }
 });
 
@@ -169,67 +168,66 @@ app.post("/review", AuthMW, async (req, res) => {
 });
 
 // Update
-// app.put("/todo/:reviewId", AuthMW, async (req, res) => {
-//   const reviewId = req.params.reviewId;
-//   try {
-//     const review = await Review.findOne({
-//       _id: reviewId,
-//       user_id: req.session.user_id
-//     });
-//     if (isNullOrUndefined(review)) {
-//       res.status(404).send({
-//         status: "Not Found",
-//         message: `Review Not Found`
-//       });
-//       return;
-//     }
-//     if (req.body.description) {
-//       review.description = req.body.description;
-//     }
-//     if (req.body.rating) {
-//       review.rating = req.body.rating;
-//     }
-//     await review.save();
-//     res.status(200).send({
-//       status: "ok",
-//       message: `Successfully Updated`,
-//       review: review
-//     });
-//   } catch (e) {
-//     res.status(500).send({
-//       status: "Internal Server Error",
-//       message: `The server has encountered an error. ${e}`
-//     });
-//   }
-// });
+app.put("/review/:reviewId", AuthMW, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  try {
+    const review = await Review.findOne({
+      _id: reviewId,
+      user_id: req.session.user_id
+    });
+    if (isNullOrUndefined(review)) {
+      res.status(404).send({
+        status: "Not Found",
+        message: `Review Not Found`
+      });
+      return;
+    }
+    if (req.body.description) {
+      review.description = req.body.description;
+    }
+    if (req.body.rating) {
+      review.rating = req.body.rating;
+    }
+    await review.save();
+    res.status(200).send({
+      status: "ok",
+      message: `Successfully Updated`,
+      review: review
+    });
+  } catch (e) {
+    res.status(500).send({
+      status: "Internal Server Error",
+      message: `The server has encountered an error. ${e}`
+    });
+  }
+});
 
 // Delete
-// app.delete("/todo/:reviewId", AuthMW, async (req, res) => {
-//   const reviewId = req.params.reviewId;
-//   try {
-//     await Review.deleteOne({
-//       _id: reviewId,
-//       user_id: req.session.user_id
-//     });
+app.delete("/review/:reviewId", AuthMW, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  try {
+    await Review.deleteOne({
+      _id: reviewId,
+      user_id: req.session.user_id
+    });
 
-//     res.status(200).send({
-//       status: "ok",
-//       message: `Successfully Deleted`
-//     });
-//   } catch (e) {
-//     res.status(500).send({
-//       status: "Internal Server Error",
-//       message: "The server has encountered an error."
-//     });
-//   }
-// });
+    res.status(200).send({
+      status: "ok",
+      message: `Successfully Deleted`
+    });
+  } catch (e) {
+    res.status(500).send({
+      status: "Internal Server Error",
+      message: "The server has encountered an error."
+    });
+  }
+});
 
 // Sending all the reviews as an Array
 app.get("/anime/:animeId", AuthMW, async (req, res) => {
   const animeId = Number(req.params.animeId);
   try {
     const reviews = await Review.find({ anime_id: animeId });
-    console.log("Debug 1:", reviews);
     let sum = 0;
     let count = 0;
     reviews.forEach(async (review) => {
@@ -238,7 +236,6 @@ app.get("/anime/:animeId", AuthMW, async (req, res) => {
       const user = await User.findById(review.user_id);
       review.user_name = user.user_name;
     });
-    console.log("Debug 2:", reviews, sum, count);
     res.status(200).send({
       status: "ok",
       message: `${reviews.length} reviews fetched`,
