@@ -15,7 +15,7 @@ const reviewSchema = new mongoose.Schema({
   description: String,
   rating: Number,
   creationTime: Date,
-  anime_id: String,
+  anime_id: Number,
   user_id: mongoose.Schema.Types.ObjectId
 });
 
